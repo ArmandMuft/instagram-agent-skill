@@ -14,25 +14,43 @@ executed. Run it once a week, on the same day.
 
 ## Input
 
-If `~/.claude/instagram/voice.md`, `swipe.md` and `log.md` exist, read them.
-The swipe file is the user's own evidence from `/ig-viral` about which formulas
-are landing in their niche right now, and it outranks anything in this file.
-The log stops the plan repeating a theme from the last fortnight.
+Read `voice.md`, `swipe.md` and `log.md` if they exist. Look in
+`~/.claude/instagram/` first, then in the project's knowledge or docs, then in
+files attached to this chat. The swipe file is the user's own evidence from
+`/ig-viral` about which formulas are landing in their niche right now, and it
+outranks anything in this file. The log stops the plan repeating a theme from
+the last fortnight.
 
-If they do not exist, ask for four things and write them down:
+If they do not exist, ask for five things and write them down:
 
 1. What the user sells, and to whom.
 2. The three or four themes they want to be known for.
 3. What actually happened this week: a client call, a number, a mistake, a
    thing they built, an argument they had. This is where posts come from.
 4. Ten accounts worth being visible to.
+5. How many posts a week they can actually make and keep making, and how many
+   hours that is.
 
 ## What to post
 
-Four to five posts a week, and at least three of them Reels. Reels are the only
-format on Instagram that reliably reaches people who do not follow the account.
-Carousels go deep with the people who already do. Stories are daily and are
-planned separately.
+**The cadence the user can hold beats the cadence that works on paper.** If
+`voice.md` gives a posting cadence, plan exactly that many posts and no more.
+A plan that needs more hours than they have gets dropped in week three, and a
+dropped plan posts nothing. If they want to go up, say what it costs in hours
+and let them choose.
+
+With no cadence given, four to five posts a week, and at least three of them
+Reels. Reels are the only format on Instagram that reliably reaches people who
+do not follow the account. Carousels go deep with the people who already do.
+Stories are daily and are planned separately.
+
+On two or three posts a week, keep the mix below but rotate it across a
+fortnight instead of cramming every type into one week.
+
+**Collabs count double.** If the account works with clients or partners, a
+post published as a collab lands on both grids and reaches both audiences. If
+the log or the audit shows collab posts outperforming solo ones, plan at least
+one a week before anything else.
 
 Mix across the week, never two of the same type back to back:
 
@@ -95,6 +113,8 @@ ENGAGE  (5 reach / 3 peers / 2 buyers)
 Say "write Tuesday" and I will draft it.
 ```
 
-Write the plan to `~/.claude/instagram/plan.md` so the other skills can read
-it. Nothing is scheduled or posted anywhere. This is a plan and the user runs
-it.
+Write the plan to `plan.md` so the other skills can read it:
+`~/.claude/instagram/plan.md` in Claude Code. In a claude.ai chat the working
+folder is wiped when the chat ends, so give the user the plan and tell them to
+add it to the project's knowledge as `plan.md`. Nothing is scheduled or posted
+anywhere. This is a plan and the user runs it.

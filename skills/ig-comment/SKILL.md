@@ -18,6 +18,13 @@ A generic comment is worse than none. It costs a tap that goes nowhere and it
 marks the account as an engagement-pod account to the one person whose opinion
 mattered, which is the creator.
 
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or comments and match those.
+A comment that does not sound like the person posting it is noticed.
+
 ## Input
 
 The user pastes the post or reel text, or a screenshot, with the account name.
@@ -82,7 +89,9 @@ Post the first. It concedes something and it has a number in it.
 
 For an engagement round, ask for the 5 to 10 posts as pasted text in one
 message, return one comment each in a single block, and keep a running note in
-`~/.claude/instagram/log.md` of who has been commented on this week.
+`log.md` of who has been commented on this week (`~/.claude/instagram/log.md`
+in Claude Code; in a claude.ai chat, hand the user the lines to add to the
+project's `log.md`, since the working folder is wiped when the chat ends).
 Commenting on the same three accounts every day is visible and it looks like
 exactly what it is.
 

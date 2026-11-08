@@ -24,8 +24,14 @@ Ask for whichever the user has:
   screenshot is worth more than the rest combined.
 - Or just the posts and their view counts, which is enough for a first pass.
 
-Also read `~/.claude/instagram/log.md` if it exists, since it records which
-hook formula each post used.
+Also read `log.md` if it exists, since it records which hook formula each post
+used. Look in `~/.claude/instagram/` first, then in the project's knowledge or
+docs, then in files attached to this chat.
+
+Check whether each post was a **collab** (published jointly with another
+account). Collabs reach both audiences, so they need to be compared with each
+other, not with solo posts, or the solo posts look worse than they are and the
+collab finding gets buried.
 
 ## What to actually measure
 

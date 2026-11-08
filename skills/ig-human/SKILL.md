@@ -47,8 +47,14 @@ any remaining Unicode format character it does not have a name for.
 
 **2. Typography.** Em dash to comma, en dash to hyphen, curly quotes to
 straight, ellipsis to three dots, bullet character to hyphen. The em dash pass
-is the one that matters: it collapses the dash to a comma and then cleans up
-the double punctuation and orphaned periods that leaves behind.
+is the one that matters. A dash in front of a whole new sentence ("it's
+crucial — it's not just a page") becomes a full stop, because a comma there is
+a splice. Paired dashes around an aside become a pair of commas. Everything
+else becomes a comma, and the double punctuation and orphaned periods that
+leaves behind get cleaned up.
+
+Still read the output before showing it. A regex cannot see meaning, and the
+cleanup is a first pass, not a final draft.
 
 **3. The slop lexicon.** delve, leverage, robust, seamless, crucial, testament
 to, "in today's fast-paced world", plus the Instagram block: "stop scrolling",

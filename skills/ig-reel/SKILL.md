@@ -24,11 +24,12 @@ python3 beats.py script.txt --target 30     # timed beat sheet before you shoot
 
 ## Before you write
 
-1. Read `~/.claude/instagram/voice.md` if it exists. That is the user's voice
-   profile: how they talk on camera, what they never say, who they are talking
-   to. If it does not exist, ask for **three of their own reels**, transcribe or
-   read them, infer the voice, and write the file. A script in the wrong voice
-   is unusable, because they have to say it out loud.
+1. Read `voice.md`. Look in `~/.claude/instagram/` first, then in the
+   project's knowledge or docs, then in files attached to this chat. That is
+   the user's voice profile: how they talk on camera, what they never say, who
+   they are talking to. If it is nowhere, ask for **three of their own reels**,
+   transcribe or read them, infer the voice, and write the file. A script in
+   the wrong voice is unusable, because they have to say it out loud.
 2. Read `hooks.json` in this folder. 26 formulas, each with a template, a filled
    example, the on-screen version, what it is for, and how it gets ruined.
    Four of them are in there because they kept turning up in real hooks, not
@@ -36,9 +37,16 @@ python3 beats.py script.txt --target 30     # timed beat sheet before you shoot
 3. If the idea is thin, do not pad it. Ask one batched question: what happened,
    to whom, and what did it cost or return. A Reel needs one specific true
    thing. Get it before writing.
-4. If `~/.claude/instagram/swipe.md` exists, read it. `/ig-viral` writes that
+4. If `swipe.md` exists, in the same places, read it. `/ig-viral` writes that
    file, and it is the user's own evidence about which formulas are working in
    their niche right now. It beats the defaults in this file.
+
+**Where files live.** In Claude Code, `~/.claude/instagram/` persists. In a
+claude.ai chat the working folder is wiped when the chat ends, so a file you
+write there is gone next time. Whenever this skill writes `voice.md` or
+`log.md`, also give the user the full contents and tell them to add it to the
+project's knowledge under the same name. Never tell them it is saved for next
+time unless it is.
 
 ## The shape
 
@@ -93,8 +101,9 @@ Reply "yes" to log it, or tell me what to change.
 ```
 
 **7. Never publish.** This skill produces a script. The user shoots it and
-posts it. On "yes", append to `~/.claude/instagram/log.md` with the date, the
-hook formula used and the first line, so `/ig-audit` has a history later.
+posts it. On "yes", append to `log.md` with the date, the hook formula used
+and the first line, so `/ig-audit` has a history later. In a claude.ai chat,
+hand them the line to paste into the project's `log.md` instead.
 
 ## On-screen text is a separate script
 
@@ -135,13 +144,18 @@ Write it separately, every time. It is read before it is heard.
 
 ```
 HOOKS  (scored)
-  86  STRONG  #5  Time Collapse   "Proposals used to take me five hours. Twenty minutes now."
-                                  on screen: 5 HOURS -> 20 MIN
-  71  STRONG  #1  Cost Confession "I billed four hours a week for formatting. For two years."
+  93  STRONG  #1  Cost Confession "I billed four hours a week for formatting. For two years."
                                   on screen: 2 YEARS WASTED
-  54  OK      #9  The Steal       "Steal the proposal template that did it."
+  78  STRONG  #5  Time Collapse   "Proposals used to take me five hours. Twenty minutes now."
+                                  on screen: 5 HOURS -> 20 MIN
+  32  WEAK    #9  The Steal       "Steal the proposal template that did it."
                                   on screen: STEAL THIS
 
-Shooting #5: the ratio is believable, it reads in one glance on screen,
-and the number is yours.
+Both top hooks clear the bar, so the score has done its job and the choice is
+yours. #5 reads in one glance on screen and the ratio is believable; #1 has
+the bigger cost in it. The Steal is out: nothing concrete, nothing checkable.
 ```
+
+The score is a filter, not a judge. It reliably kills weak hooks; it cannot
+tell you which of two strong ones will travel. Never let it overrule a real
+number the user gave you in favour of a generic line that scores higher.

@@ -1,8 +1,17 @@
 # voice.md
 
-Copy this to `~/.claude/instagram/voice.md` and fill it in. Every skill in the
-pack reads it. Ten minutes here is the difference between scripts you shoot and
-scripts you rewrite.
+Fill this in and put it where Claude will find it every time:
+
+- **claude.ai:** add it to your project's knowledge as `voice.md`. The chat's
+  working folder is wiped when a chat ends, so a copy saved there is gone next
+  time.
+- **Claude Code:** copy it to `~/.claude/instagram/voice.md`.
+
+Every writing skill in the pack reads it. Ten minutes here is the difference
+between scripts you shoot and scripts you rewrite.
+
+Keep it out of public repos. It holds your clients, your numbers and what you
+cannot say.
 
 If you would rather not fill it in by hand, send Claude three of your own reels
 or captions and say "write my voice.md from these". That works better than
@@ -34,6 +43,14 @@ the words out loud. A line you would never say is not a draft, it is a retake.
 - **Voiceover or to-camera:**
 - **Pace:** (words per minute, if you have timed yourself reading a script.
   `beats.py --wpm` uses this. Most people are between 150 and 200.)
+
+## How much I can post
+
+- **Posts a week I can keep up, every week:** (be honest. `/ig-plan` plans
+  exactly this many and no more)
+- **Hours a week for content:**
+- **Days I post:**
+- **Do I post collabs with clients or partners:** (yes / sometimes / no)
 
 ## My positions
 

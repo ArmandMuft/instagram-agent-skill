@@ -969,9 +969,9 @@
     },
     {
       "id": "hashtag-wall",
-      "regex": "(?:#\\w+[ \\t]*){5,}",
-      "name": "Hashtag wall (5+)",
-      "fix": "Three hashtags. LinkedIn stopped rewarding the wall."
+      "regex": "(?:#\\w+[ \\t]*){6,}",
+      "name": "Hashtag wall (6+)",
+      "fix": "Instagram caps a post at five hashtags and ignores the rest. Keep three to five specific ones."
     },
     {
       "id": "as-an-ai",

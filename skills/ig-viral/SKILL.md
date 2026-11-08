@@ -175,4 +175,8 @@ Write the swipe file to `~/.claude/instagram/swipe.md`. `/ig-reel` and
 `/ig-plan` both read it, which is the point: after this runs once, the rest of
 the pack is working from the user's own evidence instead of from defaults.
 
+In a claude.ai chat the working folder is wiped when the chat ends. Give the
+user the swipe file and tell them to add it to the project's knowledge as
+`swipe.md`, or next month starts from nothing.
+
 Nothing is posted, followed, liked or messaged by this skill. It reads.

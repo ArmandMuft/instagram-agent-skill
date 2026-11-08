@@ -21,6 +21,13 @@ It prints the caption the way the feed prints it: the first 125 characters in a
 box, everything else behind the tap. Read that box before you read anything
 else you wrote.
 
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or reels and match those.
+Copy in the wrong voice gets rewritten or never posted.
+
 ## First, decide which job this caption has
 
 This is the decision that ruins captions when it is skipped.

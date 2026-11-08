@@ -17,6 +17,13 @@ the first time, so slide two has to stand on its own as well.
 The format rewards one idea broken into steps. It punishes a caption cut into
 pieces.
 
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or reels and match those.
+Copy in the wrong voice gets rewritten or never posted.
+
 ## When to use it instead of a Reel
 
 Use a carousel when the idea has **sequence and needs to be re-read**: steps, a

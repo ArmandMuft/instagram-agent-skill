@@ -39,6 +39,18 @@ LEX = os.path.join(HERE, "slop.json")
 URL_RE = re.compile(r"https?://\S+|www\.\S+|\S+@\S+\.\S+")
 SENT_RE = re.compile(r"[^.!?\n]+[.!?]*")
 
+# What follows an em dash when it is joining two complete sentences. A comma
+# there is a splice ("it's important, it's not just a page"), so these get a
+# full stop instead. Everything else keeps the comma.
+CLAUSE_START = re.compile(
+    r"(?:it'?s|it\s+is|it\s+was|that'?s|that\s+is|this\s+is|there'?s|there\s+is|"
+    r"here'?s|i'm|i've|i'd|i|we're|we've|we|you're|you've|you|they're|they|"
+    r"he's|he|she's|she)\b(?!-)",
+    re.IGNORECASE,
+)
+# Two dashes in one sentence are a parenthetical: "the tool - which I built - works".
+PAIRED_DASH = re.compile(r"\s*—\s*([^—.!?\n]{1,90}?)\s*—\s*")
+
 
 def load_lexicon(path=LEX):
     with open(path, encoding="utf-8") as fh:
@@ -102,7 +114,13 @@ def pass_typographic(text, lex):
             continue
         hits.append({"name": f"{ch} {entry['name']}", "count": n, "to": entry["to"].strip() or "(space)"})
         if ch == "—":
-            # " word — word " and "word—word" both collapse to a comma + space.
+            # Paired dashes are a parenthetical, so both become commas.
+            text = PAIRED_DASH.sub(lambda m: ", " + m.group(1) + ", ", text)
+            # A single dash in front of a full clause becomes a full stop, or
+            # the comma would splice two sentences together.
+            text = re.sub(r"\s*—\s*(?=" + CLAUSE_START.pattern + ")",
+                          ". ", text, flags=re.IGNORECASE)
+            # Anything left is a pause inside one sentence: a comma is right.
             text = re.sub(r"\s*—\s*", ", ", text)
         elif ch == "–":
             text = re.sub(r"\s*–\s*(?=\d)", "-", text)      # 5–10  -> 5-10
@@ -154,6 +172,9 @@ def pass_lexical(text, lex):
     text = text.replace("...", "\x00ELL\x00")          # protect real ellipses
     text = re.sub(r"\.\s*\.+", ".", text)
     text = re.sub(r"([!?])\s*\.", r"\1", text)
+    # The reverse: "growth. Follow for more!" loses its clause and leaves
+    # "growth.!" behind. The sentence that survived keeps its own full stop.
+    text = re.sub(r"\.\s*[!?]+", ".", text)
     text = text.replace("\x00ELL\x00", "...")
     text = re.sub(r"(?m)^[ \t]+$", "", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
@@ -199,7 +220,9 @@ def restore_capitals(original, text):
     starts = re.findall(r"(?:^|[.!?]\s+|\n)\s*([A-Za-z])", original)
     if not starts or sum(1 for c in starts if c.isupper()) * 2 < len(starts):
         return text
-    return re.sub(r"(?:^|(?<=[.!?] )|(?<=[.!?]\n)|(?<=\n))\s*([a-z])",
+    # A trailing ellipsis is a pause, not a sentence end ("wait... what"), so
+    # a full stop only counts when the character before it is not another one.
+    return re.sub(r"(?:^|(?<=[!?] )|(?<=(?<!\.)\. )|(?<=[!?]\n)|(?<=(?<!\.)\.\n)|(?<=\n))\s*([a-z])",
                   lambda m: m.group(0)[:-1] + m.group(1).upper(), text)
 
 

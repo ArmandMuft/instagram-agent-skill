@@ -18,6 +18,13 @@ a conversation in one move.
 Nobody outside your followers sees these, so the job is completely different:
 depth, not reach.
 
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or reels and match those.
+Copy in the wrong voice gets rewritten or never posted.
+
 ## The daily shape
 
 Three to seven frames a day. Beyond about seven, the tap-forward rate climbs

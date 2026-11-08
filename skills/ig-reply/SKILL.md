@@ -17,6 +17,13 @@ most underused move on the platform.
 But the value is not equal across comments, so this skill sorts before it
 writes.
 
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or reels and match those.
+Copy in the wrong voice gets rewritten or never posted.
+
 ## Input
 
 The user pastes the comments, ideally with handles. Screenshots are fine. Do

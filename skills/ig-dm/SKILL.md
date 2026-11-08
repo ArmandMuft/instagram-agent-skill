@@ -14,11 +14,19 @@ Instagram DMs are the only place on the platform where money actually changes
 hands, and they are also where most accounts burn the goodwill their content
 earned. The difference is entirely about who moved first.
 
-## The three kinds of DM, and only three are worth writing
+## Voice
+
+Read `voice.md` before writing. Look in `~/.claude/instagram/` first, then in
+the project's knowledge or docs, then in files attached to this chat. If it is
+nowhere, ask for three of the user's own captions or reels and match those.
+Copy in the wrong voice gets rewritten or never posted.
+
+## The four kinds of DM worth writing
 
 **1. The reply to a hand raised.** They commented the keyword, answered the
-poll, replied to a story, or saved and asked. They moved first. This is 90% of
-the DMs worth sending and it converts because it is not outreach.
+poll, replied to a story, or saved and asked. They moved first. For a creator
+this is 90% of the DMs worth sending and it converts because it is not
+outreach.
 
 **2. The warm approach.** Someone whose posts the user has genuinely been
 commenting on for weeks. There is a shared thread of conversation already.
@@ -26,11 +34,39 @@ commenting on for weeks. There is a shared thread of conversation already.
 **3. The collab or brand pitch.** A specific proposal to a specific account,
 with a reason it is them.
 
-Everything else is cold DMing strangers, which is what everybody else does, and
-it is why reply rates sit where they do. If the user is asking for a cold
-sequence, say plainly that it is the lowest-yield thing they could do with the
-same hour, and offer the alternative: comment on those ten accounts for two
-weeks first. Then write it if they still want it.
+**4. The researched business approach.** Only when the user sells a service to
+businesses (an agency, a trade, a consultant) and the recipient is a business
+account. A small local audience will not produce enough raised hands on its
+own, so outreach is part of the job, and done properly it is not spam. The
+trigger is something specific and checkable about their business: the booking
+button sends guests to a third-party site, the menu is a blurry photo, they
+posted that they are short staffed, a review mentions they could not get
+through. One business at a time, written by hand, sent by the user.
+
+Everything else is cold DMing strangers with no reason to message them today,
+which is what everybody else does, and it is why reply rates sit where they
+do. If the user is asking for a cold sequence with no trigger, say plainly
+that it is the lowest-yield thing they could do with the same hour, and offer
+the alternative: find one real trigger per account first, or comment on those
+ten accounts for two weeks. Then write it if they still want it.
+
+## The researched business approach
+
+Three to four sentences, in this order:
+
+1. **The specific thing**, stated plainly and without an insult. "Noticed your
+   book button goes to Booking.com" not "your website is losing you money".
+2. **Why it matters to them**, in their terms: bookings, commission, time,
+   calls they miss. One clause, no lecture.
+3. **Something useful for free**: the fix in one line, a number from a similar
+   business you are allowed to share, a quick screenshot of what you mean.
+4. **One small ask.** "Want me to send over what that would look like?" Not a
+   call, not a link, not a calendar.
+
+Never open with who you are or what your agency does. They will look at your
+profile if the first line was worth reading. Never claim a result you do not
+have permission to share, and never message the same business twice in a week
+across Instagram and email.
 
 ## Before writing, get the specifics
 
@@ -39,7 +75,8 @@ Ask in one batched question:
 1. **Who** - handle, what they do, and what they posted or did that started
    this.
 2. **The trigger** - the actual reason to message today. A keyword they
-   commented, a story they replied to, a post they published. Not "they fit the
+   commented, a story they replied to, a post they published, or, for a
+   business, something specific you found about how it runs. Not "they fit the
    ICP".
 3. **What the user wants** - a conversation, a sale, a collab, a referral. Be
    honest internally, even if the message does not lead with it.

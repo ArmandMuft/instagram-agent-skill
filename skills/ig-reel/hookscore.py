@@ -33,7 +33,6 @@ Usage
 import argparse
 import json
 import re
-import statistics
 import sys
 
 WORD_RE = re.compile(r"[A-Za-z0-9$%'’-]+")
@@ -44,6 +43,10 @@ NUMBER_RE = re.compile(
     r"|days?\b|weeks?\b|months?\b|years?\b)?",
     re.IGNORECASE)
 PROPER_RE = re.compile(r"(?<!^)\b[A-Z][a-z]{2,}\b")
+# PROPER_RE skips the first word of the line, which is right on a whole hook
+# and wrong on a single token: every token is at its own start, so a name
+# never counted as the payload. This is the per-token version.
+PROPER_WORD_RE = re.compile(r"[A-Z][a-z]{2,}$")
 HASHTAG_RE = re.compile(r"(?:^|\s)#\w+")
 EMOJI_RE = re.compile(r"[\U0001F300-\U0001FAFF☀-➿]")
 
@@ -178,7 +181,7 @@ def check_frontload(text):
     payload = None
     for i, token in enumerate(low):
         if (token in STAKES or token in SPOKEN_NUMBERS or token in MONEY_WORDS
-                or NUMBER_RE.match(w[i]) or (i and PROPER_RE.match(w[i]))):
+                or NUMBER_RE.match(w[i]) or (i and PROPER_WORD_RE.match(w[i]))):
             payload = i
             break
     if payload is None:
@@ -212,6 +215,26 @@ def check_address(text):
 
 CHECKS = ["LENGTH", "SPECIFICITY", "STAKES", "FRONTLOAD", "ADDRESS"]
 
+# Weights follow the measurement written up in the README. On the 74-hook
+# corpus, SPECIFICITY was the only check that separated a creator's hits from
+# their misses (by 60 points of median). STAKES and ADDRESS had identical
+# medians in both bands, so they measured nothing there. Equal weights let a
+# hook with nothing concrete in it pass on "you" and "nobody" alone.
+#
+# LENGTH and FRONTLOAD stay at full weight: they are what catch greetings,
+# preambles and five-second openers, which is the part the panel does well.
+# Not re-validated, because the corpus is not in the repo. If you have it,
+# re-run the AUC and change these numbers.
+WEIGHTS = {"LENGTH": 1.0, "SPECIFICITY": 2.0, "STAKES": 0.5, "FRONTLOAD": 1.0, "ADDRESS": 0.5}
+# Only the checks with evidence behind them can cap the score or be named as
+# the weakest. Telling someone to add "you" to a hook is advice the data does
+# not support.
+CORE = ["LENGTH", "SPECIFICITY", "FRONTLOAD"]
+
+
+def weakest(results):
+    return min(CORE, key=lambda c: results[c][0])
+
 
 def run(text):
     results = {
@@ -222,12 +245,17 @@ def run(text):
         "ADDRESS": check_address(text),
     }
     flags = [msg for pattern, msg in DEALBREAKERS if pattern.search(text)]
-    scores = [results[c][0] for c in CHECKS]
-    # The weakest property caps the hook, same logic as detect.py: one bad
+    weighted = sum(results[c][0] * WEIGHTS[c] for c in CHECKS) / sum(WEIGHTS.values())
+    floor = min(results[c][0] for c in CORE)
+    # The weakest core property caps the hook, same logic as detect.py: one bad
     # property is enough for the thumb to keep moving.
-    overall = statistics.mean(scores) * 0.6 + min(scores) * 0.4 - len(flags) * 15
+    overall = weighted * 0.6 + floor * 0.4 - len(flags) * 15
+    # A dealbreaker is a dealbreaker. However good the rest of the line is, it
+    # cannot rank as a hook worth shooting.
+    if flags:
+        overall = min(overall, 49.0)
     overall = clamp(overall)
-    verdict = "STRONG" if overall >= 70 and min(scores) >= 55 and not flags else (
+    verdict = "STRONG" if overall >= 70 and floor >= 55 and not flags else (
         "OK" if overall >= 50 else "WEAK")
     return results, overall, verdict, flags
 
@@ -243,15 +271,15 @@ def render_one(text, results, overall, verdict, flags, out=sys.stdout):
     print(f"  \"{text.strip()}\"\n", file=out)
     for name in CHECKS:
         score, detail = results[name]
-        print(f"  {name:<13} {bar(score)} {score:5.1f}", file=out)
+        tag = "" if name in CORE else "  (minor)"
+        print(f"  {name:<13} {bar(score)} {score:5.1f}{tag}", file=out)
         print(f"  {'':<13} {detail}", file=out)
     print("-" * 62, file=out)
     print(f"  {'HOOK SCORE':<13} {bar(overall)} {overall:5.1f}   {verdict}", file=out)
     for f in flags:
         print(f"\n  DEALBREAKER  {f}", file=out)
     if verdict != "STRONG":
-        weakest = min(CHECKS, key=lambda c: results[c][0])
-        print(f"\n  Weakest property: {weakest}. Fix that one and re-run.", file=out)
+        print(f"\n  Weakest property: {weakest(results)}. Fix that one and re-run.", file=out)
     print("", file=out)
 
 
@@ -261,7 +289,9 @@ def render_table(rows, out=sys.stdout):
         mark = "->" if i == 1 else "  "
         hook = r["hook"] if len(r["hook"]) <= 62 else r["hook"][:59] + "..."
         print(f"{mark} {r['score']:5.1f} {r['verdict']:<7} {hook}", file=out)
-        print(f"        weakest: {r['weakest']} ({r['checks'][r['weakest']]['score']:.0f})", file=out)
+        low = r['checks'][r['weakest']]['score']
+        if low < 100:  # a perfect score is not a weakness worth printing
+            print(f"        weakest: {r['weakest']} ({low:.0f})", file=out)
         for f in r["flags"]:
             print(f"        dealbreaker: {f}", file=out)
     print("\nShoot the top one. If the top one is under 50, none of these are the hook.\n",
@@ -290,7 +320,7 @@ def main():
         payload.append({
             "hook": line,
             "checks": {k: {"score": round(v[0], 1), "detail": v[1]} for k, v in results.items()},
-            "weakest": min(CHECKS, key=lambda c: results[c][0]),
+            "weakest": weakest(results),
             "flags": flags,
             "score": round(overall, 1),
             "verdict": verdict,

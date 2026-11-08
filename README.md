@@ -34,23 +34,35 @@ git clone https://github.com/Jakeschincariol/instagram-agent-skill.git
 cp -r instagram-agent-skill/skills/ig-* ~/.claude/skills/
 ```
 
-Or as a plugin:
+Or as a plugin in Claude Code:
 
 ```
 /plugin marketplace add Jakeschincariol/instagram-agent-skill
 /plugin install instagram-agent
 ```
 
+Or as a plugin on claude.ai (web or desktop app, paid plans): open
+**Customize** in the sidebar, go to **Plugins**, choose **Add > Add
+marketplace > Add from a repository**, enter this repo as `owner/repo`, then
+install **instagram-agent**. Code execution has to be on (Settings >
+Capabilities) or the skills load but the five scripts cannot run.
+
 Project-local instead of global: copy the same folders into your repo's
-`.claude/skills/`. No Claude Code at all? Paste any single `SKILL.md` at the top
+`.claude/skills/`. No plugins at all? Paste any single `SKILL.md` at the top
 of a chat and it runs as a mode. You lose the five Python tools, which is most
 of the point of `/ig-reel` and `/ig-human`, but the rest works.
 
-Then spend ten minutes on `templates/voice.md`. Copy it to
-`~/.claude/instagram/voice.md` and fill it in, or send Claude three of your own
-reels and say "write my voice.md from these". Every skill reads that file. It
-matters more here than on other platforms, because you have to say the words
-out loud.
+Then spend ten minutes on `templates/voice.md`, or send Claude three of your
+own reels and say "write my voice.md from these". Every writing skill reads
+that file. It matters more here than on other platforms, because you have to
+say the words out loud.
+
+**Where it goes depends on where you use Claude.** In Claude Code, put it at
+`~/.claude/instagram/voice.md`. On claude.ai, add it to your project's
+knowledge: each chat starts with an empty working folder that is wiped when
+the chat ends, so anything saved there is gone next time. The same goes for
+`swipe.md`, `log.md` and `plan.md`; the skills hand you the contents to add to
+the project instead of pretending they saved them.
 
 ## The thirteen
 
@@ -66,7 +78,7 @@ out loud.
 | `/ig-human` | The humanizer. Two scripts that actually run. See below. |
 | `/ig-comment` | Comments on other people's posts. Nine types, picked by what the post actually is. Never "🔥🔥🔥". |
 | `/ig-reply` | The thread under your own post. Sorts into keyword / lead / substance / question / support / noise, then writes in that order. |
-| `/ig-dm` | The keyword delivery, the first message, the collab pitch, and the two follow-ups. Two. |
+| `/ig-dm` | The keyword delivery, the first message, the collab pitch, the researched approach to a local business, and the two follow-ups. Two. |
 | `/ig-repurpose` | One video, podcast or newsletter into a week of reels and carousels that each stand alone. |
 | `/ig-audit` | Post-mortem on what you already posted. Ranks by outlier multiple and sends per reach, not views. |
 
@@ -85,15 +97,14 @@ python3 beats.py script.txt --target 30     # time it before you shoot it
 ```
 HOOK RANKING
 ==============================================================================
-->  85.6 STRONG  Nobody tells you that your first 30 reels are supposed to f...
+->  82.6 STRONG  Nobody tells you that your first 30 reels are supposed to flop
         weakest: SPECIFICITY (75)
-    81.4 STRONG  I lost $18,000 because of one missing contract.
-        weakest: ADDRESS (70)
-    54.4 OK      Stop scrolling if you want to grow on Instagram in 2026 🔥
-        weakest: STAKES (70)
+    82.2 STRONG  I lost $18,000 because of one missing contract.
+        weakest: SPECIFICITY (75)
+    49.0 WEAK    Stop scrolling if you want to grow on Instagram in 2026 🔥
         dealbreaker: Opens with "stop scrolling". Asking for attention proves
                      you have not earned it.
-     9.6 WEAK    Hey guys, today I wanted to talk about content strategy
+     6.0 WEAK    Hey guys, today I wanted to talk about content strategy
         weakest: FRONTLOAD (0)
         dealbreaker: Greeting. Nobody came to the feed to be greeted.
 ```
@@ -164,8 +175,10 @@ python3 detect.py before.txt after.txt       # prove the delta
   hyphens, byte-order marks, Unicode tag characters, invisible separators,
   non-breaking and narrow spaces. Your keyboard does not make these. They
   survive copy-paste and they are invisible in every editor you own.
-- **Typography.** Em dash to comma, en dash to hyphen, curly quotes to
-  straight, ellipsis to three dots, and the orphaned punctuation that leaves.
+- **Typography.** Em dash to comma, or to a full stop when it was joining two
+  whole sentences (a comma there is a splice). Paired dashes become a pair of
+  commas. En dash to hyphen, curly quotes to straight, ellipsis to three dots,
+  and the orphaned punctuation that leaves.
 - **The lexicon.** 154 stock words and phrases with plain-English replacements.
   The last block of it is Instagram-specific: "stop scrolling", "in today's
   video", "follow for more", "tag someone who needs this", "the algorithm
@@ -243,6 +256,13 @@ same creator's misses: **AUC 0.56, where 0.50 is a coin flip.** Of the five
 checks, only SPECIFICITY separated the bands meaningfully, by 60 points of
 median. STAKES and ADDRESS had identical medians in both bands, which means on
 this corpus they measured nothing.
+
+The scorer now acts on that result. SPECIFICITY carries double weight, STAKES
+and ADDRESS carry half and can no longer cap a score or be named as the
+weakest property, and any dealbreaker caps the hook below 50. Before this, a
+line with nothing concrete in it could pass on "you" and "nobody" alone. The
+new weights follow the measurement above; they have not been re-run against
+the corpus, which is not in the repo.
 
 So the honest use is: kill the obviously weak hooks before you shoot them, then
 trust your own retention graph. Nothing that reads text can tell you which of
